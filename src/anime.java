@@ -1,21 +1,12 @@
-import javafx.scene.control.Button;
 
 public class anime {
     private int id;
+    private int malId;
     private String name;
     private String status;
     private int seenEp;
     private int allEp;
-    private int myRating;
-    private Button btnEdit = new Button("edit");
-
-    public void setBtnEdit(Button btnEdit) {
-        this.btnEdit = btnEdit;
-    }
-
-    public Button getBtnEdit() {
-        return btnEdit;
-    }
+    private int myScore;
 
     public String getName() {
         return name;
@@ -57,16 +48,23 @@ public class anime {
         this.allEp = allEp;
     }
 
-    public int getMyRating() {
-        return myRating;
+    public int getMyScore() {
+        return myScore;
     }
 
-    public void setMyRating(int myRating) {
-        this.myRating = myRating;
+    public void setMyScore(int myScore) {
+        this.myScore = myScore;
     }
 
     public String getEpisodes() {
         return seenEp + "/" + allEp;
     }
 
+    public int getMalId() {
+        return malId;
+    }
+
+    public void setMalId(int malId) {
+        this.malId = malId;
+    }
 }

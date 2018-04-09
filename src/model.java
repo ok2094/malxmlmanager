@@ -27,7 +27,8 @@ public class model {
             a.setStatus(elem.getElementsByTagName("my_status").item(0).getTextContent());
             a.setSeenEp(Integer.parseInt(elem.getElementsByTagName("my_watched_episodes").item(0).getTextContent()));
             a.setAllEp(Integer.parseInt(elem.getElementsByTagName("series_episodes").item(0).getTextContent()));
-            a.setMyRating(Integer.parseInt(elem.getElementsByTagName("my_score").item(0).getTextContent()));
+            a.setMyScore(Integer.parseInt(elem.getElementsByTagName("my_score").item(0).getTextContent()));
+            a.setMalId(Integer.parseInt(elem.getElementsByTagName("series_animedb_id").item(0).getTextContent()));
 
             anime.add(a);
         }
