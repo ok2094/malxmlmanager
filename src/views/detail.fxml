@@ -9,11 +9,15 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="599.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="599.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="detailController">
    <left>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="detImage" fitHeight="211.0" fitWidth="177.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../null.png" />
+               </image></ImageView>
+            <Label fx:id="detID" text="0" />
             <Region VBox.vgrow="ALWAYS" />
             <Hyperlink fx:id="detMAL" text="MyAnimeList" />
             <Hyperlink fx:id="detKitsu" text="Kitsu" />
@@ -56,7 +60,7 @@
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="detEpisode" alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="75.0" />
+                  <TextField fx:id="detEpisode" alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="53.0" />
                   <Label fx:id="detEpisodes" text="/0">
                      <font>
                         <Font size="16.0" />
@@ -83,7 +87,7 @@
             <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
             <HBox>
                <children>
-                  <Button mnemonicParsing="false" text="Save">
+                  <Button mnemonicParsing="false" onAction="#saveButtonAction" text="Save">
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin>
@@ -99,7 +103,7 @@
                         <Font size="13.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" text="Cancel">
+                  <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#cancelButtonAction" text="Cancel">
                      <font>
                         <Font size="13.0" />
                      </font>

@@ -7,13 +7,14 @@ import java.io.File;
 
 public class model {
     private static ObservableList<anime> anime = FXCollections.observableArrayList();
+    private static Document mallist;
 
     public static ObservableList<anime> getAnime() {
         return anime;
     }
 
     public static void initializeList(File xmlDoc) {
-        Document mallist = getDocument(xmlDoc);
+        mallist = getDocument(xmlDoc);
         mallist.getDocumentElement().normalize();
         NodeList animelist = mallist.getElementsByTagName("anime");
 
