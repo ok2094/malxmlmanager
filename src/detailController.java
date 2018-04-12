@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
 
 public class detailController implements Initializable {
     @FXML
-    private Label detAnime, detEpisodes, detID;
+    private Label detAnime, detEpisodes, detID, detDesc;
 
     @FXML
     private Hyperlink detMAL, detKitsu, detMasterani;
@@ -65,6 +65,10 @@ public class detailController implements Initializable {
 
     public void setDetAnime(String aName) {
         this.detAnime.setText(aName);
+    }
+
+    public void setDetDesc(String aDesc) {
+        this.detDesc.setText(aDesc);
     }
 
     public void setDetEpisodes(int aEpisodes) {

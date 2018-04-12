@@ -1,4 +1,5 @@
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -10,11 +11,13 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.*;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.*;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
-import java.nio.charset.Charset;
+import java.net.URLConnection;
 
 public class controller {
     private double version = 0.4;
@@ -132,11 +135,15 @@ public class controller {
         int aEpisodes = animelist.get(aID).getAllEp();
         int aScore = animelist.get(aID).getMyScore();
         Image aImage = null;
+        String aDesc = "";
 
         try {
-            JSONObject kitsuJson = readJsonFromUrl("https://kitsu.io/api/edge/anime?page[limit]=1?filter[text]=" + aName);
-            System.out.println(kitsuJson);
-            aImage = new Image(kitsuJson.get(".data[\"0\"].attributes.posterImage.medium").toString());
+            JSONObject kitsuJson = readJsonFromUrl("https://kitsu.io/api/edge/anime?filter%5Btext%5D=" + aName.replaceAll("\\s+","%20"));
+            JSONObject attributes = kitsuJson.getJSONArray("data").getJSONObject(0).getJSONObject("attributes");
+
+            BufferedImage c = ImageIO.read(new URL(attributes.getJSONObject("posterImage").getString("medium")));
+            aImage = SwingFXUtils.toFXImage(c);
+            aDesc = attributes.getString("synopsis");
         }catch(Exception e){
             System.out.println("JSON STUFF");
             System.out.println(e.getMessage());
@@ -144,7 +151,7 @@ public class controller {
 
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("views/detail.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
+            Parent root1 = fxmlLoader.load();
 
             detailController controller = fxmlLoader.getController();
             //controller.setDetMAL();
@@ -152,6 +159,8 @@ public class controller {
             //controller.setDetMasterani();
             if(aImage != null){
                 controller.setDetImage(aImage);
+            }else {
+                controller.setDetImage(new Image("null.png"));
             }
             controller.setDetID(aID);
             controller.setDetStatus(aStatus);
@@ -159,6 +168,7 @@ public class controller {
             controller.setDetEpisodes(aEpisodes);
             controller.setDetAnime(aName);
             controller.setDetScore(aScore);
+            controller.setDetDesc(aDesc);
 
             Stage stage = new Stage();
             stage.setTitle("Details - " + aName);
@@ -180,14 +190,12 @@ public class controller {
     }
 
     public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
-        InputStream is = new URL(url).openStream();
-        try {
-            BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
-            String jsonText = readAll(rd);
-            JSONObject json = new JSONObject(jsonText);
-            return json;
-        } finally {
-            is.close();
-        }
+        URL obj = new URL(url);
+        URLConnection con = obj.openConnection();
+        con.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String jsonText = readAll(in);
+        JSONObject json = new JSONObject(jsonText);
+        return json;
     }
 }

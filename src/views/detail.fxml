@@ -15,9 +15,9 @@
          <children>
             <ImageView fx:id="detImage" fitHeight="211.0" fitWidth="177.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../null.png" />
+                  <Image url="@../null.png" />
                </image></ImageView>
-            <Label fx:id="detID" text="0" />
+            <Label fx:id="detID" text="0" visible="false" />
             <Region VBox.vgrow="ALWAYS" />
             <Hyperlink fx:id="detMAL" text="MyAnimeList" />
             <Hyperlink fx:id="detKitsu" text="Kitsu" />
@@ -34,10 +34,12 @@
             <Label fx:id="detAnime" text="Animename" wrapText="true">
                <font>
                   <Font size="25.0" />
-               </font>
+               </font></Label>
+            <Label fx:id="detDesc" textOverrun="CLIP" wrapText="true">
                <padding>
-                  <Insets bottom="30.0" />
-               </padding></Label>
+                  <Insets bottom="20.0" />
+               </padding>
+            </Label>
             <HBox>
                <children>
                   <Label text="Status: ">
@@ -84,7 +86,7 @@
                   <Insets bottom="10.0" />
                </padding>
             </HBox>
-            <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+            <Region VBox.vgrow="ALWAYS" />
             <HBox>
                <children>
                   <Button mnemonicParsing="false" onAction="#saveButtonAction" text="Save">
