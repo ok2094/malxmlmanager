@@ -16,7 +16,9 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class controller {
-    private double version = 0.6;
+    private double version = 1.0;
+
+    private boolean refresh = false;
 
     @FXML
     private TableView<anime> tblAnime;
@@ -34,8 +36,42 @@ public class controller {
     private Label statTotal, statWatch, statHold, statDrop, statComplete, statPlan;
 
     @FXML
+    private void scrollAction(){
+        if(refresh){
+            fillTable();
+            refresh = false;
+        }
+    }
+
+    @FXML
     private void refreshButtonAction(){
         fillTable();
+    }
+
+    @FXML
+    private void saveListButtonAction(){
+        if(true){
+            String xml = model.saveList();
+
+            FileChooser myFile = new FileChooser();
+            myFile.setTitle("Save List");
+            myFile.setInitialFileName("animelist.xml");
+            File dest = myFile.showSaveDialog(null);
+            if (dest != null) {
+                saveTextToFile(xml, dest);
+            }
+        }
+    }
+
+    private void saveTextToFile(String content, File file) {
+        try {
+            PrintWriter writer;
+            writer = new PrintWriter(file);
+            writer.println(content);
+            writer.close();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
     @FXML
@@ -159,6 +195,7 @@ public class controller {
             Parent root1 = fxmlLoader.load();
 
             detailController controller = fxmlLoader.getController();
+            //add links maybe later
             //controller.setDetMAL();
             //controller.setDetKitsu();
             //controller.setDetMasterani();
@@ -183,6 +220,8 @@ public class controller {
             System.out.println("FXML STUFF");
             System.out.println(e.getMessage());
         }
+
+        refresh = true;
     }
 
     private Image getImageFromUrl(String url) throws Exception {
@@ -202,7 +241,7 @@ public class controller {
         return sb.toString();
     }
 
-    public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+    private static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
         URL obj = new URL(url);
         URLConnection con = obj.openConnection();
         con.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");

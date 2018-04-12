@@ -1,7 +1,6 @@
 
 public class anime {
     private int id;
-    private int malId;
     private String name;
     private String status;
     private int seenEp;
@@ -58,13 +57,5 @@ public class anime {
 
     public String getEpisodes() {
         return seenEp + "/" + allEp;
-    }
-
-    public int getMalId() {
-        return malId;
-    }
-
-    public void setMalId(int malId) {
-        this.malId = malId;
     }
 }

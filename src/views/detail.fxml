@@ -19,9 +19,9 @@
                </image></ImageView>
             <Label fx:id="detID" text="0" visible="false" />
             <Region VBox.vgrow="ALWAYS" />
-            <Hyperlink fx:id="detMAL" text="MyAnimeList" />
-            <Hyperlink fx:id="detKitsu" text="Kitsu" />
-            <Hyperlink fx:id="detMasterani" text="Masterani" />
+            <Hyperlink fx:id="detMAL" text="MyAnimeList" visible="false" />
+            <Hyperlink fx:id="detKitsu" text="Kitsu" visible="false" />
+            <Hyperlink fx:id="detMasterani" text="Masterani" visible="false" />
          </children>
          <padding>
             <Insets bottom="10.0" left="10.0" top="10.0" />
@@ -97,7 +97,7 @@
                         <Font size="13.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" text="Delete">
+                  <Button mnemonicParsing="false" onAction="#deleteButtonAction" text="Delete">
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin>

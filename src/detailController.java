@@ -29,11 +29,17 @@ public class detailController implements Initializable {
     private ImageView detImage;
 
     @FXML
-    private Button btnCancel;
+    private void cancelButtonAction(){
+        Stage stage = (Stage) detID.getScene().getWindow();
+        stage.close();
+    }
 
     @FXML
-    private void cancelButtonAction(){
-        Stage stage = (Stage) btnCancel.getScene().getWindow();
+    private void deleteButtonAction(){
+        int aID = Integer.parseInt(detID.getText());
+        model.deleteFromList(aID);
+
+        Stage stage = (Stage) detID.getScene().getWindow();
         stage.close();
     }
 
@@ -46,7 +52,7 @@ public class detailController implements Initializable {
         animelist.get(aID).setMyScore((int)detScore.getValue());
         animelist.get(aID).setSeenEp(Integer.parseInt(detEpisode.getText()));
 
-        Stage stage = (Stage) btnCancel.getScene().getWindow();
+        Stage stage = (Stage) detID.getScene().getWindow();
         stage.close();
     }
 
