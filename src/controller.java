@@ -1,5 +1,4 @@
 import javafx.collections.ObservableList;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -12,15 +11,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.*;
 import org.json.*;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 
 public class controller {
-    private double version = 0.4;
+    private double version = 0.6;
 
     @FXML
     private TableView<anime> tblAnime;
@@ -129,11 +125,20 @@ public class controller {
 
         int aID = colID.getCellObservableValue(cellIndex).getValue();
 
-        String aName = animelist.get(aID).getName();
-        String aStatus = animelist.get(aID).getStatus();
-        int aEpisode =  animelist.get(aID).getSeenEp();
-        int aEpisodes = animelist.get(aID).getAllEp();
-        int aScore = animelist.get(aID).getMyScore();
+        int index = 0;
+
+        for(int i = 0; i < animelist.size(); i++){
+            if (animelist.get(i).getId() == aID){
+                index = i;
+                break;
+            }
+        }
+
+        String aName = animelist.get(index).getName();
+        String aStatus = animelist.get(index).getStatus();
+        int aEpisode =  animelist.get(index).getSeenEp();
+        int aEpisodes = animelist.get(index).getAllEp();
+        int aScore = animelist.get(index).getMyScore();
         Image aImage = null;
         String aDesc = "";
 
@@ -141,8 +146,8 @@ public class controller {
             JSONObject kitsuJson = readJsonFromUrl("https://kitsu.io/api/edge/anime?filter%5Btext%5D=" + aName.replaceAll("\\s+","%20"));
             JSONObject attributes = kitsuJson.getJSONArray("data").getJSONObject(0).getJSONObject("attributes");
 
-            BufferedImage c = ImageIO.read(new URL(attributes.getJSONObject("posterImage").getString("medium")));
-            aImage = SwingFXUtils.toFXImage(c);
+            aImage = getImageFromUrl(attributes.getJSONObject("posterImage").getString("medium"));
+
             aDesc = attributes.getString("synopsis");
         }catch(Exception e){
             System.out.println("JSON STUFF");
@@ -178,6 +183,14 @@ public class controller {
             System.out.println("FXML STUFF");
             System.out.println(e.getMessage());
         }
+    }
+
+    private Image getImageFromUrl(String url) throws Exception {
+        URL imgurl = new URL(url);
+        URLConnection imgcon = imgurl.openConnection();
+        imgcon.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
+        InputStream is = imgcon.getInputStream();
+        return new Image(is);
     }
 
     private static String readAll(Reader rd) throws IOException {
